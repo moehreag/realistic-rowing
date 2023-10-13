@@ -18,25 +18,6 @@ public abstract class BoatEntityMixin extends Entity {
 		super(type, world);
 	}
 
-	/**
-	 * @author moeahreag
-	 * @reason turn around the player and adjust the normal midpoint to x+180°
-	 */
-	/*@Overwrite
-	public void clampPassengerYaw(Entity passenger) {
-
-		if (MathHelper.angleBetween(passenger.getYaw(), this.getYaw()) < 5) {
-			passenger.setYaw(getYaw() + 180);
-		}
-
-		passenger.setBodyYaw(this.getYaw()+180);
-		float f = MathHelper.wrapDegrees((passenger.getYaw()-180) - this.getYaw());
-		float g = MathHelper.clamp(f, -105.0F, 105.0F);
-		passenger.prevYaw += g - f;
-		passenger.setYaw(passenger.getYaw() + g - f);
-		passenger.setHeadYaw(passenger.getYaw());
-	}*/
-
 	@Inject(method = "clampPassengerYaw", at = @At("HEAD"))
 	private void realisiticRowing$turnPlayer(Entity passenger, CallbackInfo ci){
 		if (MathHelper.angleBetween(passenger.getYaw(), this.getYaw()) < 5) {
