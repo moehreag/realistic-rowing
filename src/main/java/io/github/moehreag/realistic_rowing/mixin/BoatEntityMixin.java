@@ -1,8 +1,11 @@
 package io.github.moehreag.realistic_rowing.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.vehicle.BoatEntity;
+import net.minecraft.entity.vehicle.ChestBoatEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,6 +19,11 @@ public abstract class BoatEntityMixin extends Entity {
 
 	public BoatEntityMixin(EntityType<?> type, World world) {
 		super(type, world);
+	}
+
+	@WrapOperation(method = "getPassengerAttachmentPos", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/vehicle/BoatEntity;getPassengerHorizontalOffset()F"))
+	private float realisticrowing$movePassenger(BoatEntity instance, Operation<Float> original){
+		return original.call(instance) + 0.6F + (!(instance instanceof ChestBoatEntity) ? 0.15F : 0);
 	}
 
 	@Inject(method = "clampPassengerYaw", at = @At("HEAD"))
