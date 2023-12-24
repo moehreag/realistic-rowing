@@ -16,13 +16,11 @@ repositories {
 }
 
 loom {
-
 	mods {
 		"realistic-rowing" {
 			sourceSet sourceSets.main
 		}
 	}
-
 }
 
 dependencies {
