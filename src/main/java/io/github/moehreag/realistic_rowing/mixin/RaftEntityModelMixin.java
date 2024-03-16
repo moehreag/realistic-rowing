@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(RaftEntityModel.class)
 public class RaftEntityModelMixin {
 	@Inject(method = "setPaddleAngle", at = @At("TAIL"))
-	private static void realisticRowing$changePaddle(BoatEntity entity, int sigma, ModelPart part, float angle, CallbackInfo ci){
+	private static void changePaddle(BoatEntity entity, int sigma, ModelPart part, float angle, CallbackInfo ci){
 		RealisticRowing.setPaddleOffset(entity, part);
 	}
 }
