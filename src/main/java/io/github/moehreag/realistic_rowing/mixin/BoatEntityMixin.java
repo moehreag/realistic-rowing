@@ -2,13 +2,13 @@ package io.github.moehreag.realistic_rowing.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import io.github.moehreag.realistic_rowing.RealisticRowing;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.vehicle.BoatEntity;
-import net.minecraft.entity.vehicle.ChestBoatEntity;
+import net.minecraft.entity.vehicle.AbstractBoatEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(BoatEntity.class)
+@Mixin(AbstractBoatEntity.class)
 public abstract class BoatEntityMixin extends Entity {
 
 	@Shadow
@@ -28,8 +28,10 @@ public abstract class BoatEntityMixin extends Entity {
 	@Shadow
 	private boolean pressingForward;
 
-	@Shadow private boolean pressingLeft;
-	@Shadow private boolean pressingRight;
+	@Shadow
+	private boolean pressingLeft;
+	@Shadow
+	private boolean pressingRight;
 	@Unique
 	private boolean startedRiding;
 
@@ -37,19 +39,19 @@ public abstract class BoatEntityMixin extends Entity {
 		super(type, world);
 	}
 
-	@WrapOperation(method = "getPassengerAttachmentPos", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/vehicle/BoatEntity;getPassengerHorizontalOffset()F"))
-	private float movePassenger(BoatEntity instance, Operation<Float> original) {
-		if (RealisticRowing.shouldActivate(instance)) {
-			return original.call(instance) + 0.6F + (!(instance instanceof ChestBoatEntity) ? 0.15F : 0);
+	@ModifyArg(method = "getPassengerAttachmentPos", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Vec3d;<init>(DDD)V"), index = 2)
+	private double movePassenger(double x, @Local(argsOnly = true) Entity passenger) {
+		if (passenger instanceof PlayerEntity && RealisticRowing.shouldActivate(this)) {
+			return x + 0.6F;
 		}
-		return original.call(instance);
+		return x;
 	}
 
 	@Inject(method = "clampPassengerYaw", at = @At("HEAD"), cancellable = true)
 	private void turnPlayer(Entity passenger, CallbackInfo ci) {
-		if (RealisticRowing.shouldActivate(this)) {
-			if (startedRiding){
-				if (!pressingBack && !pressingForward && !pressingLeft && !pressingRight){
+		if (passenger instanceof PlayerEntity && RealisticRowing.shouldActivate(this)) {
+			if (startedRiding) {
+				if (!pressingBack && !pressingForward && !pressingLeft && !pressingRight) {
 					ci.cancel();
 					return;
 				}
@@ -89,8 +91,8 @@ public abstract class BoatEntityMixin extends Entity {
 		return riding;
 	}
 
-	@WrapOperation(method = "setInputs", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/vehicle/BoatEntity;pressingForward:Z"))
-	private void invertControls$forward(BoatEntity instance, boolean value, Operation<Void> original) {
+	@WrapOperation(method = "setInputs", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/vehicle/AbstractBoatEntity;pressingForward:Z"))
+	private void invertControls$forward(AbstractBoatEntity instance, boolean value, Operation<Void> original) {
 		if (RealisticRowing.shouldActivate(this)) {
 			if (!MinecraftClient.getInstance().options.getPerspective().isFirstPerson()) {
 				pressingBack = value;
@@ -100,8 +102,8 @@ public abstract class BoatEntityMixin extends Entity {
 		}
 	}
 
-	@WrapOperation(method = "setInputs", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/vehicle/BoatEntity;pressingBack:Z"))
-	private void invertControls$backward(BoatEntity instance, boolean value, Operation<Void> original) {
+	@WrapOperation(method = "setInputs", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/vehicle/AbstractBoatEntity;pressingBack:Z"))
+	private void invertControls$backward(AbstractBoatEntity instance, boolean value, Operation<Void> original) {
 		if (RealisticRowing.shouldActivate(this)) {
 			if (!MinecraftClient.getInstance().options.getPerspective().isFirstPerson()) {
 				pressingForward = value;

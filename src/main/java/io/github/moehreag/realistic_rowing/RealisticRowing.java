@@ -8,7 +8,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.vehicle.BoatEntity;
+import net.minecraft.entity.vehicle.AbstractBoatEntity;
 
 public class RealisticRowing implements ClientModInitializer {
 	private static final Map<Class<?>, Boolean> boats = new HashMap<>();
@@ -38,7 +38,7 @@ public class RealisticRowing implements ClientModInitializer {
 		return value;
 	}
 
-	public static void setPaddleOffset(BoatEntity entity, ModelPart part){
+	public static void setPaddleOffset(AbstractBoatEntity entity, ModelPart part){
 		if (shouldActivate(entity)) {
 			if (entity.getPassengerList().size() == ((BoatEntityAccessor) entity).getMaxPassengerCount()) {
 				part.pivotX = 7;
