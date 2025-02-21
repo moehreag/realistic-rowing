@@ -13,6 +13,7 @@ import net.minecraft.entity.vehicle.AbstractBoatEntity;
 public class RealisticRowing implements ClientModInitializer {
 	private static final Map<Class<?>, Boolean> boats = new HashMap<>();
 	private static final Map<Entity, Boolean> activationCache = new HashMap<>();
+
 	@Override
 	public void onInitializeClient() {
 		try {
@@ -24,13 +25,13 @@ public class RealisticRowing implements ClientModInitializer {
 		}
 	}
 
-	public static boolean shouldActivate(Entity e){
-		if (activationCache.containsKey(e)){
+	public static boolean shouldActivate(Entity e) {
+		if (activationCache.containsKey(e)) {
 			return activationCache.get(e);
 		}
 		boolean value = true;
-		for (Map.Entry<Class<?>, Boolean> entry : boats.entrySet()){
-			if (entry.getKey().isAssignableFrom(e.getClass())){
+		for (Map.Entry<Class<?>, Boolean> entry : boats.entrySet()) {
+			if (entry.getKey().isAssignableFrom(e.getClass())) {
 				value = entry.getValue();
 			}
 		}
@@ -38,7 +39,7 @@ public class RealisticRowing implements ClientModInitializer {
 		return value;
 	}
 
-	public static void setPaddleOffset(AbstractBoatEntity entity, ModelPart part){
+	public static void setPaddleOffset(AbstractBoatEntity entity, ModelPart part) {
 		if (shouldActivate(entity)) {
 			if (entity.getPassengerList().size() == ((BoatEntityAccessor) entity).getMaxPassengerCount()) {
 				part.pivotX = 7;
