@@ -42,9 +42,9 @@ public class RealisticRowing implements ClientModInitializer {
 	public static void setPaddleOffset(AbstractBoatEntity entity, ModelPart part) {
 		if (shouldActivate(entity)) {
 			if (entity.getPassengerList().size() == ((BoatEntityAccessor) entity).getMaxPassengerCount()) {
-				part.pivotX = 7;
+				part.originX = 7;
 			} else {
-				part.pivotX = 3;
+				part.originX = 3;
 			}
 		}
 	}
