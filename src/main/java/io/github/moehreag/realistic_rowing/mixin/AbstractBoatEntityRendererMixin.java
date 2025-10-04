@@ -14,7 +14,7 @@ public abstract class AbstractBoatEntityRendererMixin {
 
 	@Inject(method = "updateRenderState(Lnet/minecraft/entity/vehicle/AbstractBoatEntity;Lnet/minecraft/client/render/entity/state/BoatEntityRenderState;F)V", at = @At("TAIL"))
 	private void updateStatePassengerCount(AbstractBoatEntity abstractBoatEntity, BoatEntityRenderState boatEntityRenderState, float f, CallbackInfo ci){
-		((BoatEntityRenderStateDuck) boatEntityRenderState).setEntity(abstractBoatEntity);
+		((BoatEntityRenderStateDuck) boatEntityRenderState).realistic_rowing$setEntity(abstractBoatEntity);
 	}
 
 }

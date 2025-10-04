@@ -17,6 +17,6 @@ public abstract class BoatEntityModelMixin {
 	@WrapOperation(method = "setAngles(Lnet/minecraft/client/render/entity/state/BoatEntityRenderState;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/model/AbstractBoatEntityModel;setPaddleAngles(FILnet/minecraft/client/model/ModelPart;)V"))
 	private void changePaddle(float angle, int paddle, ModelPart modelPart, Operation<Void> original, BoatEntityRenderState state) {
 		original.call(angle, paddle, modelPart);
-		RealisticRowing.setPaddleOffset(((BoatEntityRenderStateDuck) state).getEntity(), modelPart);
+		RealisticRowing.setPaddleOffset(((BoatEntityRenderStateDuck) state).realistic_rowing$getEntity(), modelPart);
 	}
 }

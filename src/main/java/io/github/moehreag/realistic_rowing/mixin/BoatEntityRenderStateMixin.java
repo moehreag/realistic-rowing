@@ -9,12 +9,12 @@ import org.spongepowered.asm.mixin.Unique;
 @Mixin(BoatEntityRenderState.class)
 public abstract class BoatEntityRenderStateMixin implements BoatEntityRenderStateDuck {
 	@Override
-	public AbstractBoatEntity getEntity() {
+	public AbstractBoatEntity realistic_rowing$getEntity() {
 		return entity;
 	}
 
 	@Override
-	public void setEntity(AbstractBoatEntity entity) {
+	public void realistic_rowing$setEntity(AbstractBoatEntity entity) {
 		this.entity = entity;
 	}
 
