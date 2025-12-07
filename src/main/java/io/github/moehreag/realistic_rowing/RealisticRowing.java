@@ -6,9 +6,9 @@ import java.util.Map;
 import io.github.moehreag.realistic_rowing.mixin.BoatEntityAccessor;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.model.ModelPart;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.vehicle.AbstractBoatEntity;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 
 public class RealisticRowing implements ClientModInitializer {
 	private static final Map<Class<?>, Boolean> boats = new HashMap<>();
@@ -39,12 +39,12 @@ public class RealisticRowing implements ClientModInitializer {
 		return value;
 	}
 
-	public static void setPaddleOffset(AbstractBoatEntity entity, ModelPart part) {
+	public static void setPaddleOffset(AbstractBoat entity, ModelPart part) {
 		if (shouldActivate(entity)) {
-			if (entity.getPassengerList().size() == ((BoatEntityAccessor) entity).getMaxPassengerCount()) {
-				part.originX = 7;
+			if (entity.getPassengers().size() == ((BoatEntityAccessor) entity).getMaxPassengerCount()) {
+				part.x = 7;
 			} else {
-				part.originX = 3;
+				part.x = 3;
 			}
 		}
 	}

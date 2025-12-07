@@ -1,10 +1,10 @@
 package io.github.moehreag.realistic_rowing.mixin;
 
-import net.minecraft.entity.vehicle.AbstractBoatEntity;
+import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
-@Mixin(AbstractBoatEntity.class)
+@Mixin(AbstractBoat.class)
 public interface BoatEntityAccessor {
 
 	@Invoker("getMaxPassengers")

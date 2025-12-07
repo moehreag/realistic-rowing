@@ -1,8 +1,9 @@
 package io.github.moehreag.realistic_rowing;
 
-import net.minecraft.entity.vehicle.AbstractBoatEntity;
+import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 
 public interface BoatEntityRenderStateDuck {
-	AbstractBoatEntity realistic_rowing$getEntity();
-	void realistic_rowing$setEntity(AbstractBoatEntity count);
+	AbstractBoat realistic_rowing$getEntity();
+
+	void realistic_rowing$setEntity(AbstractBoat count);
 }
