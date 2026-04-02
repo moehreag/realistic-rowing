@@ -41,7 +41,7 @@ public abstract class BoatEntityMixin extends Entity {
 	}
 
 	@ModifyArg(method = "getPassengerAttachmentPoint", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/Vec3;<init>(DDD)V"), index = 2)
-	private double movePassenger(double x, @Local(argsOnly = true) Entity passenger) {
+	private double movePassenger(double x, @Local(argsOnly = true) final Entity passenger) {
 		if (passenger instanceof Player && RealisticRowing.shouldActivate(this)) {
 			return x + 0.6F;
 		}
