@@ -1,6 +1,6 @@
 plugins {
-	id 'net.fabricmc.fabric-loom' version '1.15.+'
-	id "me.modmuss50.mod-publish-plugin" version "1.1.0"
+	id 'net.fabricmc.fabric-loom' version '1.17.+'
+	id "me.modmuss50.mod-publish-plugin" version "2.0.0"
 }
 
 version = project.mod_version
@@ -64,6 +64,7 @@ publishMods {
 		accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
 		projectId = "1274703"
 		minecraftVersions.add(minecraft_version)
+		client = true
 	}
 
 	modrinth {
@@ -72,23 +73,3 @@ publishMods {
 		minecraftVersions.add(minecraft_version)
 	}
 }
-
-/*publisher {
-	apiKeys {
-		modrinth System.getenv("MODRINTH_TOKEN")
-		curseforge System.getenv("CURSEFORGE_TOKEN")
-	}
-
-	setModrinthID("afWvXmW4")
-	setCurseID("1274703")
-
-	setChangelog("No changelog provided")
-	setVersion(project.version)
-	setGameVersions(project.minecraft_version)
-	setLoaders("fabric", "quilt")
-	setCurseEnvironment("client")
-	setArtifact(tasks.jar)
-	addAdditionalFile(tasks.sourcesJar)
-	setVersionType("release")
-	setDisableMalwareScanner(true)
-}*/
