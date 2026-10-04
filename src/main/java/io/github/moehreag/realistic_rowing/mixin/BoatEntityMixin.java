@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractBoat.class)
 public abstract class BoatEntityMixin extends Entity {
@@ -49,11 +49,11 @@ public abstract class BoatEntityMixin extends Entity {
 	}
 
 	@Inject(method = "clampRotation", at = @At("HEAD"), cancellable = true)
-	private void turnPlayer(Entity passenger, CallbackInfo ci) {
+	private void turnPlayer(Entity passenger, CallbackInfoReturnable<Float> cir) {
 		if (passenger instanceof Player && RealisticRowing.shouldActivate(this)) {
 			if (startedRiding) {
 				if (!inputDown && !inputUp && !inputLeft && !inputRight) {
-					ci.cancel();
+					cir.cancel();
 					return;
 				}
 			}
